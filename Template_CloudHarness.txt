@@ -1,0 +1,67 @@
+"""
+My simple cloud based test infra harness templates. Docker containerized with Parmiko and  @app.route  handlers to handle commands via API requests
+
+command can be substiuted with the command that needs to executed and the corresponding handler implemented.
+
+"""
+
+
+class Client:
+
+     def client_template(self):
+        """ Test for user registration """
+        with self.client:
+        response = self.client.post(
+            '/command',
+            data=json.dumps(dict(
+                command= 'top -n2 | grep 'Cpu(s)'
+                Intrest_feild='%'
+            )),
+            content_type='application/json'
+        )
+        data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 201)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+from flask import Flask
+from flask import request
+
+class ServerAPI():
+    """
+    Server side implemtation. Spwan a sperate container for flask
+    """
+
+	app = Flask(__name__)
+  
+	@app.route('/command', methods = ['POST'])
+	def postJsonCommandHandler():
+        	
+
+        def postJsonConmmandHandler(self):
+        # get the post data
+        post_data = request.get_json()
+	# extract the command
+	command = post_data['device']
+	command( command)    
+                responseObject = {
+                    'status': 'success',
+                    'message': 'Successfully registered.',
+                                   }
+                return make_response(jsonify(responseObject)), 200
+
+
+app.run(host='0.0.0.0', port= 8090)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+
+	def command("command"):
+		sshapp = paramiko.SSHClient()
+		sshapp.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+		sshapp.load_system_host_keys 
+		sshapp.connect(host,username=user,password=passwd)  # use your password and loggig
+		stdin,stdout,stderr = sshapp.exec_command("top -n2 | grep 'Cpu(s)") # grab cpu 
+		print(output)
+
+
+
+
